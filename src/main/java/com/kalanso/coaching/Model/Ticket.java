@@ -1,9 +1,11 @@
 package com.kalanso.coaching.Model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 @Entity
 @Table(name = "tickets")
 public class Ticket {
@@ -37,68 +39,10 @@ public class Ticket {
         createdAt = new Date();
     }
 
-    // Constructors, getters and setters
 
-
-    public Ticket() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public TicketCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TicketCategory category) {
-        this.category = category;
-    }
-
-    public TicketPriority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(TicketPriority priority) {
-        this.priority = priority;
-    }
-
-    public TicketStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TicketStatus status) {
-        this.status = status;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private OurUser user;
 
 }
 

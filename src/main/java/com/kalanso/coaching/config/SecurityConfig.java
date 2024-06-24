@@ -1,5 +1,6 @@
 package com.kalanso.coaching.config;
 
+import org.hibernate.metamodel.internal.AbstractDynamicMapInstantiator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,8 +27,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/user/save").permitAll()
-                        .requestMatchers("/api/tickets/**").permitAll()
+                        .requestMatchers("/", "/user/**").hasRole("ADMIN")
+                        .requestMatchers("/tickets/**").hasRole("APPRENANT")
+
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults()).userDetailsService(ourUserInfoUserDetailsService)
                 .formLogin(withDefaults())

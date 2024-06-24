@@ -1,30 +1,27 @@
 package com.kalanso.coaching.config;
 
+import com.kalanso.coaching.Model.OurUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import com.kalanso.coaching.Model.OurUser;
+import java.util.Collections;
 
 public class OurUserInfoDetails implements UserDetails {
     private String email;
     private String password;
-    private List<GrantedAuthority> roles;
+    private Collection<? extends GrantedAuthority> authorities;
 
     public OurUserInfoDetails(OurUser ourUser){
         this.email = ourUser.getEmail();
         this.password = ourUser.getPassword();
-        this.roles = Arrays.stream(ourUser.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        this.authorities = Collections.singleton(new SimpleGrantedAuthority("ROLE_" + ourUser.getRoles()));
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        return this.authorities;
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.kalanso.coaching.Controller;
 
 import com.kalanso.coaching.Model.OurUser;
-import com.kalanso.coaching.Model.Ticket;
-import com.kalanso.coaching.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,25 +35,13 @@ public class UserController {
 
 
 
-   /*
-    @GetMapping("/product/all")
-
-    public ResponseEntity<Object> getAllProducts(){
-        // Implementation for fetching all products would go here
-        return ResponseEntity.ok("Fetch all products logic here");
-    }
-    */
-
-
-
-    @GetMapping("/users/all")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/user/all")
     public ResponseEntity<Object> getAllUsers(){
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
-    @GetMapping("/users/single")
-    @PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+    @GetMapping("/user/single")
+
     public ResponseEntity<Object> getMyDetails(){
         return ResponseEntity.ok(userService.findByEmail(getLoggedInUserDetails().getUsername()));
     }
