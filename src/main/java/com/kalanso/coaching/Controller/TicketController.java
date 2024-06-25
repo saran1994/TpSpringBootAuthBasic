@@ -1,9 +1,9 @@
 package com.kalanso.coaching.Controller;
 
+
 import com.kalanso.coaching.Model.Ticket;
 import com.kalanso.coaching.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,32 +13,43 @@ import java.util.Optional;
 @RequestMapping("/tickets")
 public class TicketController {
 
+    private final TicketService ticketService;
+
     @Autowired
-    private TicketService ticketService;
-
-    @GetMapping("/liste")
-    public List<Ticket> getAllTickets() {
-        return ticketService.getAllTickets();
+    public TicketController(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Ticket> getTicketById(@PathVariable Long id) {
-        Optional<Ticket> ticket = ticketService.getTicketById(id);
-        return ticket.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
+    // Endpoint
 
     @PostMapping("/creer")
     public Ticket createTicket(@RequestBody Ticket ticket) {
         return ticketService.createTicket(ticket);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket ticketDetails) {
-        return ticketService.updateTicket(id, ticketDetails);
+    // Endpoint for retrieving a ticket by ID
+    @GetMapping("/{id}")
+    public Optional<Ticket> getTicketById(@PathVariable Long id) {
+        return ticketService.getTicketById(id);
     }
 
+    // Endpoint for updating a ticket
+    @PutMapping("/{id}")
+    public Ticket updateTicket(@PathVariable Long id, @RequestBody Ticket ticket) {
+
+        return ticketService.updateTicket(id, ticket);
+    }
+
+    // Endpoint for deleting a ticket by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTicket(@PathVariable Long id) {
-        return ticketService.deleteTicket(id);
+    public void deleteTicket(@PathVariable Long id) {
+        ticketService.deleteTicket(id);
+    }
+
+    // Endpoint for retrieving all tickets
+    @GetMapping
+    public List<Ticket> getAllTickets() {
+        return ticketService.getAllTickets();
     }
 }
+

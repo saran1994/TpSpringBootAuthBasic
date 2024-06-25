@@ -27,9 +27,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/user/**").hasRole("ADMIN")
-                        .requestMatchers("/tickets/**").hasRole("APPRENANT")
+                        .requestMatchers("/", "/user/save", "/user/all").hasRole("ADMIN")
+                        .requestMatchers("/", "/article/**").hasRole("ADMIN")
+                        .requestMatchers("/", "/user/single").permitAll()
 
+                        .requestMatchers("/tickets/creer" , "/tickets/delete" , "/article/liste").hasRole("APPRENANT")
+
+
+                        .requestMatchers("/tickets/edit").hasRole("FORMATEUR")
                         .anyRequest().authenticated())
                 .httpBasic(withDefaults()).userDetailsService(ourUserInfoUserDetailsService)
                 .formLogin(withDefaults())
