@@ -4,6 +4,9 @@ package com.kalanso.coaching.Controller;
 import com.kalanso.coaching.Model.Ticket;
 import com.kalanso.coaching.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,28 +29,34 @@ public class TicketController {
     public Ticket createTicket(@RequestBody Ticket ticket) {
         return ticketService.createTicket(ticket);
     }
+    public UserDetails getLoggedInUserDetails(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.getPrincipal() instanceof UserDetails){
+            return (UserDetails) authentication.getPrincipal();
+        }
+        return null;
+    }
 
-    // Endpoint for retrieving a ticket by ID
+    // Endpoint recuperer par id
     @GetMapping("/{id}")
     public Optional<Ticket> getTicketById(@PathVariable Long id) {
         return ticketService.getTicketById(id);
     }
 
-    // Endpoint for updating a ticket
-    @PutMapping("/{id}")
+    // Endpoint modifier
+    @PutMapping("edit/{id}")
     public Ticket updateTicket(@PathVariable Long id, @RequestBody Ticket ticket) {
-
         return ticketService.updateTicket(id, ticket);
     }
 
-    // Endpoint for deleting a ticket by ID
-    @DeleteMapping("/{id}")
+    // Endpoint supprimer
+    @DeleteMapping("delete/{id}")
     public void deleteTicket(@PathVariable Long id) {
         ticketService.deleteTicket(id);
     }
 
-    // Endpoint for retrieving all tickets
-    @GetMapping
+    // Endpoint recuperer liste
+    @GetMapping("/liste")
     public List<Ticket> getAllTickets() {
         return ticketService.getAllTickets();
     }

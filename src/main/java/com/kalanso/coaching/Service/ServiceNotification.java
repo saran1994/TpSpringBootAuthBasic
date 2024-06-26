@@ -15,29 +15,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ServiceNotification {
 
-    private final NotificationRepository notificationRepository;
     private final JavaMailSender mailSender;
 
-    public void envoyerNotification(Ticket ticket, String message) {
-        Notification notification = new Notification();
-        notification.setMessage(message);
-        notification.setTicket(ticket);
-        notification.setUser(ticket.getUser());
-
-        // Save the notification in the database
-        notificationRepository.save(notification);
-
-        // Send the email notification
-        sendEmailNotification(ticket.getUser().getEmail(), message);
-    }
-
-    public void modifierNotification(Long notificationId, String newMessage) {
-        Notification notification = notificationRepository.findById(notificationId)
-                .orElseThrow(() -> new RuntimeException("Notification not found for id :: " + notificationId));
-
-        notification.setMessage(newMessage);
-        notificationRepository.save(notification);
-    }
 
     public void sendEmailNotification(String mail, String message) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();

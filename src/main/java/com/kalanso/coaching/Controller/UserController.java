@@ -1,6 +1,8 @@
 package com.kalanso.coaching.Controller;
 
 import com.kalanso.coaching.Model.OurUser;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,16 +16,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping
+@Tag(name = "Administrateur" , description = "gestion admin")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/")
+
     public String goHome(){
         return "Bienvenue";
     }
-
+    @Operation(summary = "Liste des ", description = "fhfhghghdfdfgh")
     @PostMapping("/user/save")
     public ResponseEntity<Object> saveUser(@RequestBody OurUser ourUser){
         OurUser result = userService.saveUser(ourUser);
