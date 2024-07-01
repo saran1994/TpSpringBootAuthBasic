@@ -1,6 +1,5 @@
 package com.kalanso.coaching.config;
 
-
 import com.kalanso.coaching.Model.OurUser;
 import com.kalanso.coaching.Repository.OurUserRepo;
 import org.springframework.beans.factory.annotation.Autowired;

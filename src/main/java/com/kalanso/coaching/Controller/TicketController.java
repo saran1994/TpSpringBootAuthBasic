@@ -4,9 +4,7 @@ package com.kalanso.coaching.Controller;
 import com.kalanso.coaching.Model.Ticket;
 import com.kalanso.coaching.Service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,16 +24,11 @@ public class TicketController {
     // Endpoint
 
     @PostMapping("/creer")
-    public Ticket createTicket(@RequestBody Ticket ticket) {
-        return ticketService.createTicket(ticket);
+    public ResponseEntity<Ticket> createTicket(@RequestBody Ticket ticket) {
+        Ticket createdTicket = ticketService.createTicket(ticket);
+        return ResponseEntity.ok(createdTicket);
     }
-    public UserDetails getLoggedInUserDetails(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null && authentication.getPrincipal() instanceof UserDetails){
-            return (UserDetails) authentication.getPrincipal();
-        }
-        return null;
-    }
+
 
     // Endpoint recuperer par id
     @GetMapping("/{id}")
@@ -44,9 +37,10 @@ public class TicketController {
     }
 
     // Endpoint modifier
-    @PutMapping("edit/{id}")
-    public Ticket updateTicket(@PathVariable Long id, @RequestBody Ticket ticket) {
-        return ticketService.updateTicket(id, ticket);
+    @PutMapping("/edit")
+    public ResponseEntity<Ticket> updateTicket(@PathVariable Long id, @RequestBody Ticket ticketDetails) {
+        Ticket updatedTicket = ticketService.updateTicket(id, ticketDetails);
+        return ResponseEntity.ok(updatedTicket);
     }
 
     // Endpoint supprimer
@@ -60,5 +54,7 @@ public class TicketController {
     public List<Ticket> getAllTickets() {
         return ticketService.getAllTickets();
     }
+
+
 }
 

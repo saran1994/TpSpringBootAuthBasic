@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping
-@Tag(name = "Administrateur" , description = "gestion admin")
+@Tag(name = "Utilisateur" , description = "gestion des utlisateurs avec attribution des roles")
 public class UserController {
 
     @Autowired
@@ -27,7 +27,8 @@ public class UserController {
     public String goHome(){
         return "Bienvenue";
     }
-    @Operation(summary = "Liste des ", description = "fhfhghghdfdfgh")
+
+    @Operation(summary = "Ajouter des utilisateurs", description = "cette table concerne l'ajout d'un utilisateur dans la base")
     @PostMapping("/user/save")
     public ResponseEntity<Object> saveUser(@RequestBody OurUser ourUser){
         OurUser result = userService.saveUser(ourUser);
@@ -38,14 +39,14 @@ public class UserController {
     }
 
 
-
+    @Operation(summary = "liste des utilisateurs", description = "recuperer un utilisateur dans la base")
     @GetMapping("/user/all")
     public ResponseEntity<Object> getAllUsers(){
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
+    @Operation(summary = "session des utilisateurs", description = "recuperer les details de l'utilisateur connecter ")
     @GetMapping("/user/single")
-
     public ResponseEntity<Object> getMyDetails(){
         return ResponseEntity.ok(userService.findByEmail(getLoggedInUserDetails().getUsername()));
     }

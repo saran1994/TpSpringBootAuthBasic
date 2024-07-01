@@ -36,7 +36,7 @@ public class SecurityConfig {
 
                         .requestMatchers("/tickets/edit").hasRole("FORMATEUR")
                         .anyRequest().authenticated())
-                .httpBasic(withDefaults()).userDetailsService(ourUserInfoUserDetailsService)
+                .httpBasic(withDefaults())
                 .formLogin(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable);
         return http.build();
